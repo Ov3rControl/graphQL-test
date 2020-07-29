@@ -1,0 +1,87 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+type AuthResultDto {
+    _id: String!
+    email: String!
+    token: String!
+    username: String!
+}
+
+type MeetingDto {
+    _id: String!
+    endDate: DateTime!
+    location: String!
+    startDate: DateTime!
+    type: MeetingTypeEnum!
+    users: [String!]!
+}
+
+type MeetingResultDto {
+    coming: [MeetingWithUserDto!]!
+    past: [MeetingWithUserDto!]!
+}
+
+type MeetingWithUserDto {
+    _id: String!
+    endDate: DateTime!
+    location: String!
+    startDate: DateTime!
+    type: MeetingTypeEnum!
+    users: [UserDto!]!
+}
+
+type MeetingsUnAvailableTimesDto {
+    date: String!
+    hours: [Float!]!
+}
+
+type MessageDto {
+    _id: String!
+    body: String!
+    chat: String!
+    createdAt: DateTime!
+    sender: String!
+}
+
+type Mutation {
+    login(email: String!, password: String!): AuthResultDto
+    register(email: String!, password: String!, username: String!): AuthResultDto
+    scheduleMeeting(endDate: DateTime!, location: String!, startDate: DateTime!, type: String!, users: [String!]!): MeetingDto!
+    sendMessage(body: String!, chat: String!, sender: String!): MessageDto!
+}
+
+type Query {
+    chatForUsers(users: [String!]!): String!
+    friends(user: String!): [UserDto!]!
+    hello: String!
+    meetings(user: String!): MeetingResultDto!
+    messages(chat: String!): [MessageDto!]!
+    unavailableTimes(user: String!): [MeetingsUnAvailableTimesDto!]!
+    users(user: String!): [UserDto!]!
+}
+
+type Subscription {
+    newMeeting(user: String!): MeetingDto!
+    newMessage(chat: String!): MessageDto!
+}
+
+type UserDto {
+    _id: String!
+    email: String!
+    username: String!
+}
+
+enum MeetingTypeEnum {
+    Offline
+    Online
+}
+
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
